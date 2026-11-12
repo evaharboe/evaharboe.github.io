@@ -1,7 +1,7 @@
 // The two sides of the site. Rename the labels here and they change everywhere.
 export const SIDES = {
-  tech: { label: 'Tech', path: 'tech/' },
-  life: { label: 'Life', path: 'life/' },
+  tech: { label: 'Build', path: 'build/' },
+  life: { label: 'Move', path: 'move/' },
 } as const;
 export type Side = keyof typeof SIDES;
 
