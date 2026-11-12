@@ -37,5 +37,17 @@ const base = import.meta.env.BASE_URL;
   .body :global(th), .body :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   .body :global(th) { color: var(--muted); font-weight: 500; }
   .body :global(td:last-child), .body :global(th:last-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  .body :global(figure) { margin: 28px 0 32px; }
+  .body :global(figure img) { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; }
+  .body :global(figure.diagram img) { background: #fff; max-height: 640px; object-fit: contain; }
+  .body :global(figcaption) { font-size: .85rem; color: var(--muted); margin-top: 10px; }
+  .body :global(.pair) { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  .body :global(.pair figure), .body :global(.phones figure) { margin: 0; }
+  .body :global(.phones) { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); margin: 28px 0 32px; }
+  .body :global(.phones img) { aspect-ratio: 532 / 1240; object-fit: cover; object-position: top; }
+  @media (max-width: 560px) { .body :global(.pair) { grid-template-columns: 1fr; } }
+  .body :global(blockquote) { margin: 36px 0; padding: 4px 0 4px 22px; border-left: 2px solid var(--accent); }
+  .body :global(blockquote p) { font-size: 1.15rem; color: var(--text); margin: 0 0 8px; }
+  .body :global(blockquote cite) { font-style: normal; font-size: .85rem; color: var(--muted); }
   .body :global(.note) { font-size: .9rem; color: var(--muted); }
 </style>

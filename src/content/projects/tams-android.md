@@ -17,11 +17,19 @@ Sony had a local copy of the server and a bare-bones proof-of-concept Android ap
 
 A native Android app for Sony's PDT-FP1, a device that plugs straight into Sony's professional cameras. Native mattered because the app needed low-level access to the device's camera and streaming APIs.
 
+<div class="phones">
+<figure><img src="/images/projects/tams-home.webp" alt="App home screen showing media grouped by date" loading="lazy" /><figcaption>Media, grouped by day</figcaption></figure>
+<figure><img src="/images/projects/tams-search.webp" alt="Search screen listing recordings" loading="lazy" /><figcaption>Search and filtering</figcaption></figure>
+<figure><img src="/images/projects/tams-progress.webp" alt="Upload progress screen" loading="lazy" /><figcaption>Live upload progress</figcaption></figure>
+</div>
+
 It supports the three main TAMS workflows:
 
 1. **Upload** media from the device to TAMS.
 2. **"Stream"** from an external camera to TAMS. True streaming wasn't possible with the hardware and software at the time, so I approximated it by uploading a new segment every few seconds, which was enough to test whether the idea worked.
 3. **Download** chosen segments back and reassemble them for playback.
+
+<figure><img src="/images/projects/tams-camera.webp" alt="Recording screen showing a live feed from an external camera" loading="lazy" /><figcaption>Recording from an external camera, with segments uploaded straight to TAMS.</figcaption></figure>
 
 Around those workflows there's sign-in (OpenID Connect), search and filtering, batch actions, list and grid views, and a metadata inspector for recorded files.
 
@@ -35,3 +43,7 @@ Around those workflows there's sign-in (OpenID Connect), search and filtering, b
 ## Impact
 
 The app went beyond its original goals. It sped up onboarding for people new to TAMS, made conversations about future backend changes much clearer, and closed the gap between what TAMS can do on paper and what it's like to use. It was also my first time writing Kotlin.
+
+
+<blockquote><p>“Eva has made a huge contribution towards the TAMS project, showing the ability to adapt to an existing code base and adding new functionality.”</p><cite>Project manager, Sony Europe</cite></blockquote>
+
