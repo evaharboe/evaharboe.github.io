@@ -22,7 +22,9 @@ Search for `TODO(Eva)` to find everything that needs your input.
 Until the Graduate visa (Jul 2027): no prices, booking links or "hire me" on the Life side.
 
 ## Deploy
-1. Create a GitHub repo (`<username>.github.io` for a root URL, or any name and set `base` in `astro.config.mjs`).
-2. Set `site` in `astro.config.mjs`.
-3. Repo Settings → Pages → Source: GitHub Actions.
-4. Push to `main`; `.github/workflows/deploy.yml` builds and deploys.
+    npm run deploy
+
+This builds the site and pushes `dist/` to the `gh-pages` branch, which GitHub Pages serves
+(Settings → Pages → Source: Deploy from a branch → `gh-pages` / root). Custom domain: evaharboe.com (`public/CNAME`).
+
+Commit and push your source changes to `main` as usual; `npm run deploy` is what updates the live site.
