@@ -6,7 +6,7 @@ const races = (await getCollection('races')).sort((a, b) => b.data.date.valueOf(
 const now = new Date();
 const upcoming = races.filter((r) => r.data.date > now).reverse();
 const done = races.filter((r) => r.data.date <= now);
-const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
 // Retreat styles Eva wants to build towards. Edit freely.
 const retreatIdeas = [
@@ -20,128 +20,130 @@ const retreatIdeas = [
 // No prices, booking links or "hire me". An "Offerings" / "For workplaces" section can go in from July 2027.
 ---
 <Base side="life" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
-  <section class="intro">
-    <div class="wrap">
-      <p class="eyebrow">Yoga · Running · Retreats</p>
-      <h1>Move well, together.</h1>
+  <div class="page">
+    <header class="intro">
+      <p class="kicker">Yoga · Running · Retreats</p>
+      <h1>Move well,<br /><em>together.</em></h1>
       <p class="lead">
         I teach yoga, I'm learning to run long, and I love bringing people somewhere beautiful to do both.
-        Everything here is about the same thing: making movement feel welcoming, and building community around it.
+        Everything here comes back to one thing: making movement feel welcoming, and building community around it.
       </p>
-    </div>
-  </section>
+    </header>
 
-  <section class="band clay-band">
-    <div class="wrap grid two yoga">
-      <div>
-        <p class="eyebrow">Yoga</p>
-        <h2>Teaching</h2>
+    <section>
+      <h2 class="label">Yoga</h2>
+      <div class="content">
         <p>
-          I'm a certified yoga teacher. I teach weekly classes and lead retreats for the Surrey Yoga Society, where I was president for two terms.
-          When I started teaching, I focused on making classes feel like a community rather than just a class, and attendance
-          doubled to around 40 people a week.
+          I'm a certified yoga teacher. I teach weekly classes and lead retreats for the Surrey Yoga Society,
+          where I was president for two terms. When I started teaching, I focused on making classes feel like a
+          community rather than just a class, and attendance doubled.
         </p>
         <p>
-          Next I'm planning my 300-hour training, with a focus on yoga for runners: mobility, strength and recovery for people who
-          spend a lot of time on their feet.
+          Next is my 300-hour training, with a focus on yoga for runners: mobility, strength and recovery for
+          people who spend a lot of time on their feet.
         </p>
         <!-- TODO(Eva): your 200hr school/style, and a photo of you teaching -->
+        <dl class="figures">
+          <div><dt>~40</dt><dd>people a week</dd></div>
+          <div><dt>3</dt><dd>retreats led</dd></div>
+          <div><dt>300hr</dt><dd>training next</dd></div>
+        </dl>
       </div>
-      <div class="stats">
-        <div class="stat"><span class="num">~40</span><span>people a week in my classes</span></div>
-        <div class="stat"><span class="num">3</span><span>retreats led, in the UK and Cyprus</span></div>
-        <div class="stat"><span class="num">300hr</span><span>teacher training, coming next</span></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section>
-    <div class="wrap">
-      <p class="eyebrow">Running</p>
-      <h2>From 500 metres to a marathon</h2>
-      <p class="lead">I was a sprinter and handball player. Distance running was the punishment for turning up late. In 2026 I decided to change that.</p>
-
-      {upcoming.length > 0 && (
-        <div class="grid two races">
-          {upcoming.map((r) => (
-            <div class="card race next">
-              <span class="tag">Coming up · {fmt(r.data.date)}</span>
-              <h3>{r.data.name}</h3>
-              <p class="dist">{r.data.distance}</p>
-              {r.data.note && <p>{r.data.note}</p>}
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div class="grid three races">
-        {done.map((r) => (
-          <div class="card race">
-            <p class="dist">{r.data.distance} · {fmt(r.data.date)}</p>
-            <h3>{r.data.name}</h3>
-            <p class="time">{r.data.time}</p>
-            {r.data.note && <p class="note">{r.data.note}</p>}
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap">
-      <p class="eyebrow">Retreats</p>
-      <h2>Where this is heading</h2>
-      <p class="lead">
-        I've planned and led three retreats for the yoga society, in England and abroad. One day I'd like to build
-        retreats that mix movement with places worth travelling to.
-      </p>
-      <div class="grid two ideas">
-        {retreatIdeas.map((i) => (
-          <div class="card">
-            <h3>{i.title}</h3>
-            <p>{i.text}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap grid two">
-      <div>
-        <p class="eyebrow">Snow</p>
-        <h2>Raised on skis</h2>
+    <section>
+      <h2 class="label">Running</h2>
+      <div class="content">
         <p>
-          I grew up skiing every weekend at our family cabin in Norway, and now go ski touring with my dad, most recently in Japan.
-          Norwegian even has a word, <em>føre</em>, for the conditions snow creates. I could talk about it for hours.
+          I was a sprinter and handball player, and distance running was the punishment for turning up late.
+          In 2026 I decided to change that.
+        </p>
+        <ul class="races">
+          {upcoming.map((r) => (
+            <li class="upcoming">
+              <span class="race-name">{r.data.name}<small>{r.data.distance} · {fmt(r.data.date)}</small></span>
+              <span class="race-time">Coming up</span>
+            </li>
+          ))}
+          {done.map((r) => (
+            <li>
+              <span class="race-name">{r.data.name}<small>{r.data.distance} · {fmt(r.data.date)}</small></span>
+              <span class="race-time">{r.data.time}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="label">Retreats</h2>
+      <div class="content">
+        <p>
+          I've planned and led three retreats for the yoga society, in England and abroad. One day I'd like to
+          build retreats that pair movement with places worth travelling to.
+        </p>
+        <ol class="ideas">
+          {retreatIdeas.map((i) => (
+            <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="label">Snow</h2>
+      <div class="content">
+        <p>
+          I grew up skiing every weekend at our family cabin in Norway, and now go ski touring with my dad, most
+          recently in Japan. Norwegian even has a word, <em>føre</em>, for the conditions snow creates.
         </p>
       </div>
-      <div>
-        <p class="eyebrow">Elsewhere</p>
-        <h2>35 countries and counting</h2>
-        <p>Many of them solo. Travelling alone taught me to walk into somewhere new and get to know people quickly, which is most of what a good retreat needs.</p>
+    </section>
+
+    <section>
+      <h2 class="label">Elsewhere</h2>
+      <div class="content">
+        <p>
+          35 countries, many of them solo. Travelling alone taught me to walk into somewhere new and get to know
+          people quickly, which is most of what a good retreat needs.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Base>
 
 <style>
-  .intro { padding: 88px 0 56px; }
-  .intro .eyebrow, .clay-band .eyebrow { color: var(--moss); }
-  .clay-band { background: var(--sage-soft); }
-  .band:not(.clay-band) { background: var(--sand); }
-  .yoga { align-items: center; }
-  .stats { display: grid; gap: 14px; }
-  .stat { background: #fffdf8; border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: baseline; gap: 16px; }
-  .num { font-family: var(--serif); font-size: 2.2rem; color: var(--clay); min-width: 110px; }
-  .races { margin-top: 28px; }
-  .race .dist { font-size: .85rem; color: var(--sage); margin-bottom: .3em; }
-  .race .time { font-family: var(--serif); font-size: 2rem; color: var(--forest); margin: 0; }
-  .race .note { color: var(--muted); font-size: .95rem; margin-top: .6em; }
-  .race.next { background: var(--forest); border-color: var(--forest); color: var(--sand); }
-  .race.next h3 { color: var(--cream); }
-  .race.next .tag { background: var(--clay); color: var(--cream); }
-  .race.next .dist { color: var(--stone); }
-  .ideas { margin-top: 28px; }
-  .ideas p { color: var(--muted); margin: 0; }
+  .page { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  @media (min-width: 700px) { .page { padding: 0 40px; } }
+
+  .intro { padding: 120px 0 88px; }
+  .kicker { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--sage); margin-bottom: 1.6em; }
+  h1 { font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.05; margin-bottom: .6em; }
+  h1 em { font-style: italic; color: var(--moss); }
+  .lead { font-size: 1.15rem; max-width: 560px; }
+
+  section { display: grid; gap: 12px; padding: 48px 0; border-top: 1px solid var(--line); }
+  @media (min-width: 760px) { section { grid-template-columns: 180px 1fr; gap: 40px; } }
+  .label { font-family: var(--body-font); font-size: .78rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--sage); margin: .45em 0 0; }
+  .content { max-width: 600px; }
+  .content > p { color: #3b3a33; }
+
+  .figures { display: flex; gap: 40px; flex-wrap: wrap; margin: 32px 0 0; }
+  .figures div { display: flex; flex-direction: column; }
+  .figures dt { font-family: var(--serif); font-size: 2rem; color: var(--clay); line-height: 1.1; }
+  .figures dd { margin: 0; font-size: .85rem; color: var(--muted); }
+
+  .races, .ideas { list-style: none; padding: 0; margin: 28px 0 0; }
+  .races li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .races li:first-child { border-top: 1px solid var(--line); }
+  .race-name { font-family: var(--serif); font-size: 1.15rem; color: var(--heading); }
+  .race-name small { display: block; font-family: var(--body-font); font-size: .82rem; color: var(--muted); margin-top: 2px; }
+  .race-time { font-family: var(--serif); font-size: 1.4rem; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .upcoming .race-time { font-family: var(--body-font); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--clay); }
+
+  .ideas { counter-reset: idea; }
+  .ideas li { counter-increment: idea; display: grid; grid-template-columns: 2.2em 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .ideas li::before { content: counter(idea, decimal-leading-zero); color: var(--sage); font-size: .85rem; padding-top: .25em; }
+  .idea-title { font-family: var(--serif); font-size: 1.1rem; color: var(--heading); }
+  .idea-text { grid-column: 2; color: var(--muted); font-size: .95rem; }
 </style>

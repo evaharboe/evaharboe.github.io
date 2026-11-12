@@ -12,7 +12,7 @@
   --body-font: 'DM Sans', system-ui, sans-serif;
 
   /* Life palette (shared names so both themes can reference them) */
-  --cream: #f8f4ec; --sand: #ece3d2; --stone: #d9cdb6;
+  --cream: #faf8f3; --sand: #ece3d2; --stone: #d9cdb6;
   --sage: #8a9a78; --sage-soft: #dfe5d6; --moss: #4f6142; --forest: #2c3a2a;
   --clay: #c47f5a; --clay-soft: #f3e1d5;
 }
@@ -40,7 +40,7 @@
   --bg-alt: var(--sage-soft);
   --surface: #fffdf8;
   --surface-hover: #ffffff;
-  --line: var(--sand);
+  --line: #e6dfd1;
   --text: #2a2a24;
   --muted: #6b6a5e;
   --accent: var(--clay);
