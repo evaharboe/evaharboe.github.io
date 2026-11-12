@@ -14,14 +14,19 @@ const pastRetreats = [
     text: 'In planning. Probably the Alps, with long days on the trails and yoga either side of them.' },
   { place: 'West Lexham, Norfolk', when: 'October 2026', kind: 'Yoga retreat', featured: true,
     photos: [
+      { src: 'west-lexham-meditation.webp', alt: 'Morning meditation in the sunlit yoga room at West Lexham' },
       { src: 'west-lexham-garden.webp', alt: 'Walking through the gardens at West Lexham at sunset' },
       { src: 'west-lexham-breakfast.webp', alt: 'Breakfast spread at West Lexham' },
       { src: 'west-lexham-pond.webp', alt: 'The pond at West Lexham in autumn' },
       { src: 'west-lexham-smores.webp', alt: "Toasting s'mores by the fire" },
-      { src: 'west-lexham-barn.webp', alt: 'The barn common room at West Lexham' },
     ],
     text: "The one I'm proudest of, and where I worked out what I want a retreat to be. Fully catered with family-style meals, wild swimming, a little library, film nights and s'mores, so people could properly switch off." },
   { place: 'Cyprus', when: 'April 2026', kind: 'Yoga & island',
+    photos: [
+      { src: 'cyprus-boat.webp', alt: 'On the boat tour, looking out over turquoise water' },
+      { src: 'cyprus-beach-yoga.webp', alt: 'Yoga on the beach in Cyprus' },
+      { src: 'cyprus-breakfast.webp', alt: 'Breakfast together in Cyprus' },
+    ],
     text: 'A younger, more social one that I oversaw: boat tours, yoga on the beach and a karaoke night.' },
   { place: 'South Downs', when: 'November 2025', kind: 'Hiking & yoga',
     text: 'Our own space for the weekend, with hikes, yoga and bracelet making. I cooked every meal myself, which taught me to leave the catering to someone else next time.' },
@@ -41,9 +46,9 @@ const retreatIdeas = [
 // Life side. IMPORTANT (visa): until the Graduate visa, keep this page about practice and community.
 // No prices, booking links or "hire me". An "Offerings" / "For workplaces" section can go in from July 2027.
 const img = (f: string) => `${import.meta.env.BASE_URL}images/retreats/${f}`;
-const featured = pastRetreats.find((r) => r.featured)!;
 const upcomingRetreat = pastRetreats.find((r) => r.upcoming);
-const others = pastRetreats.filter((r) => !r.featured && !r.upcoming);
+const withPhotos = pastRetreats.filter((r) => !r.upcoming && r.photos);
+const others = pastRetreats.filter((r) => !r.upcoming && !r.photos);
 ---
 <Base side="life" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
   <div class="page">
@@ -90,26 +95,29 @@ const others = pastRetreats.filter((r) => !r.featured && !r.upcoming);
           little better than the last.
         </p>
 
-        <article class="featured">
-          <img class="cover" src={img(featured.photos![0].src)} alt={featured.photos![0].alt} loading="lazy" />
-          <div class="featured-body">
-            <span class="when">{featured.when} · {featured.kind}</span>
-            <h3>{featured.place}</h3>
-            <p>{featured.text}</p>
-          </div>
-          <div class="gallery">
-            {featured.photos!.slice(1).map((ph) => <img src={img(ph.src)} alt={ph.alt} loading="lazy" />)}
-          </div>
-        </article>
+        {upcomingRetreat && (
+          <article class="rcard upcoming">
+            <span class="when">Next · {upcomingRetreat.when} · {upcomingRetreat.kind}</span>
+            <h3>{upcomingRetreat.place}</h3>
+            <p>{upcomingRetreat.text}</p>
+          </article>
+        )}
+
+        {withPhotos.map((r) => (
+          <article class="featured">
+            <img class="cover" src={img(r.photos![0].src)} alt={r.photos![0].alt} loading="lazy" />
+            <div class="featured-body">
+              <span class="when">{r.when} · {r.kind}</span>
+              <h3>{r.place}</h3>
+              <p>{r.text}</p>
+            </div>
+            <div class:list={['gallery', `n${r.photos!.length - 1}`]}>
+              {r.photos!.slice(1).map((ph) => <img src={img(ph.src)} alt={ph.alt} loading="lazy" />)}
+            </div>
+          </article>
+        ))}
 
         <div class="cards">
-          {upcomingRetreat && (
-            <article class="rcard upcoming">
-              <span class="when">Next · {upcomingRetreat.when} · {upcomingRetreat.kind}</span>
-              <h3>{upcomingRetreat.place}</h3>
-              <p>{upcomingRetreat.text}</p>
-            </article>
-          )}
           {others.map((r) => (
             <article class="rcard">
               <span class="when">{r.when} · {r.kind}</span>
@@ -224,7 +232,7 @@ const others = pastRetreats.filter((r) => !r.featured && !r.upcoming);
   .jump a { font-size: .85rem; text-decoration: none; color: var(--text); padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; }
   .jump a:hover { background: var(--sage-soft); }
 
-  .featured { margin: 32px 0 20px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+  .featured { margin: 20px 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
   .cover { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 60%; }
   .featured-body { padding: 22px 24px 8px; }
   .featured-body h3, .rcard h3 { font-size: 1.3rem; margin: 4px 0 8px; }
@@ -237,7 +245,9 @@ const others = pastRetreats.filter((r) => !r.featured && !r.upcoming);
   .cards { display: grid; gap: 16px; }
   @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
   .rcard { border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; }
-  .rcard.upcoming { border-style: dashed; border-color: var(--clay); }
+  .rcard.upcoming { border-style: dashed; border-color: var(--clay); margin-top: 32px; }
+  .gallery.n2 { grid-template-columns: repeat(2, 1fr); }
+  .gallery.n2 img { aspect-ratio: 4 / 3; }
   .rcard.upcoming .when { color: var(--clay); }
   .when { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); }
 
