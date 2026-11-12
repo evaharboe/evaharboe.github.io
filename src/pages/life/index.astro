@@ -12,7 +12,14 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'n
 const pastRetreats = [
   { place: 'Mountains, somewhere snow-free', when: 'April 2027', kind: 'Hiking & yoga', upcoming: true,
     text: 'In planning. Probably the Alps, with long days on the trails and yoga either side of them.' },
-  { place: 'West Lexham, Norfolk', when: 'October 2026', kind: 'Yoga retreat',
+  { place: 'West Lexham, Norfolk', when: 'October 2026', kind: 'Yoga retreat', featured: true,
+    photos: [
+      { src: 'west-lexham-garden.webp', alt: 'Walking through the gardens at West Lexham at sunset' },
+      { src: 'west-lexham-breakfast.webp', alt: 'Breakfast spread at West Lexham' },
+      { src: 'west-lexham-pond.webp', alt: 'The pond at West Lexham in autumn' },
+      { src: 'west-lexham-smores.webp', alt: "Toasting s'mores by the fire" },
+      { src: 'west-lexham-barn.webp', alt: 'The barn common room at West Lexham' },
+    ],
     text: "The one I'm proudest of, and where I worked out what I want a retreat to be. Fully catered with family-style meals, wild swimming, a little library, film nights and s'mores, so people could properly switch off." },
   { place: 'Cyprus', when: 'April 2026', kind: 'Yoga & island',
     text: 'A younger, more social one that I oversaw: boat tours, yoga on the beach and a karaoke night.' },
@@ -33,6 +40,10 @@ const retreatIdeas = [
 
 // Life side. IMPORTANT (visa): until the Graduate visa, keep this page about practice and community.
 // No prices, booking links or "hire me". An "Offerings" / "For workplaces" section can go in from July 2027.
+const img = (f: string) => `${import.meta.env.BASE_URL}images/retreats/${f}`;
+const featured = pastRetreats.find((r) => r.featured)!;
+const upcomingRetreat = pastRetreats.find((r) => r.upcoming);
+const others = pastRetreats.filter((r) => !r.featured && !r.upcoming);
 ---
 <Base side="life" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
   <div class="page">
@@ -43,9 +54,12 @@ const retreatIdeas = [
         Yoga classes, races and retreats: the things I spend my time on away from a screen, and the
         people I get to do them with.
       </p>
+      <nav class="jump" aria-label="On this page">
+        <a href="#yoga">Yoga</a><a href="#retreats">Retreats</a><a href="#running">Running</a><a href="#about">About me</a>
+      </nav>
     </header>
 
-    <section>
+    <section id="yoga">
       <h2 class="label">Yoga</h2>
       <div class="content">
         <p>
@@ -68,23 +82,49 @@ const retreatIdeas = [
       </div>
     </section>
 
-    <section>
-      <h2 class="label">Retreats</h2>
+    <section id="retreats" class="wide">
+      <h2 class="label">Past retreats</h2>
       <div class="content">
         <p>
           Retreats are where it all comes together. I've planned four for the yoga society so far, each one a
           little better than the last.
         </p>
-        <ul class="past">
-          {pastRetreats.map((r) => (
-            <li class:list={[{ upcoming: r.upcoming }]}>
-              <span class="when">{r.upcoming ? `Next · ${r.when}` : r.when} · {r.kind}</span>
-              <span class="idea-title">{r.place}</span>
-              <span class="idea-text">{r.text}</span>
-            </li>
+
+        <article class="featured">
+          <img class="cover" src={img(featured.photos![0].src)} alt={featured.photos![0].alt} loading="lazy" />
+          <div class="featured-body">
+            <span class="when">{featured.when} · {featured.kind}</span>
+            <h3>{featured.place}</h3>
+            <p>{featured.text}</p>
+          </div>
+          <div class="gallery">
+            {featured.photos!.slice(1).map((ph) => <img src={img(ph.src)} alt={ph.alt} loading="lazy" />)}
+          </div>
+        </article>
+
+        <div class="cards">
+          {upcomingRetreat && (
+            <article class="rcard upcoming">
+              <span class="when">Next · {upcomingRetreat.when} · {upcomingRetreat.kind}</span>
+              <h3>{upcomingRetreat.place}</h3>
+              <p>{upcomingRetreat.text}</p>
+            </article>
+          )}
+          {others.map((r) => (
+            <article class="rcard">
+              <span class="when">{r.when} · {r.kind}</span>
+              <h3>{r.place}</h3>
+              <p>{r.text}</p>
+            </article>
           ))}
-        </ul>
-        <p class="next">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="label">What's next</h2>
+      <div class="content">
+        <p>
           These are the kinds I'd love to run next. The active ones keep the yoga to a morning and an evening
           session, so the day is free for the activity.
         </p>
@@ -95,7 +135,8 @@ const retreatIdeas = [
         </ol>
       </div>
     </section>
-    <section>
+
+    <section id="running">
       <h2 class="label">Running</h2>
       <div class="content">
         <p>
@@ -178,12 +219,33 @@ const retreatIdeas = [
   .race-time { font-family: var(--serif); font-size: 1.4rem; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .upcoming .race-time { font-family: var(--body-font); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--clay); }
 
+  section { scroll-margin-top: 80px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; }
+  .jump a { font-size: .85rem; text-decoration: none; color: var(--text); padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; }
+  .jump a:hover { background: var(--sage-soft); }
+
+  .featured { margin: 32px 0 20px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+  .cover { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 60%; }
+  .featured-body { padding: 22px 24px 8px; }
+  .featured-body h3, .rcard h3 { font-size: 1.3rem; margin: 4px 0 8px; }
+  .featured-body p, .rcard p { color: var(--muted); font-size: .95rem; margin: 0; }
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 16px 24px 24px; }
+  .gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
+  @media (max-width: 560px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+  .featured img, .gallery img { filter: saturate(.92) sepia(.06); }
+
+  .cards { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
+  .rcard { border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; }
+  .rcard.upcoming { border-style: dashed; border-color: var(--clay); }
+  .rcard.upcoming .when { color: var(--clay); }
+  .when { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); }
+
   .past { list-style: none; padding: 0; margin: 24px 0 40px; }
   .past li { display: grid; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .past li:first-child { border-top: 1px solid var(--line); }
   .next { margin-top: 8px; }
-  .when { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); margin-bottom: 2px; }
-  .past .upcoming .when { color: var(--clay); }
+
   .ideas { counter-reset: idea; }
   .ideas li { counter-increment: idea; display: grid; grid-template-columns: 2.2em 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .ideas li::before { content: counter(idea, decimal-leading-zero); color: var(--sage); font-size: .85rem; padding-top: .25em; }
