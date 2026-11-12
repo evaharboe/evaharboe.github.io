@@ -8,6 +8,14 @@ const upcoming = races.filter((r) => r.data.date > now).reverse();
 const done = races.filter((r) => r.data.date <= now);
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
+// Retreats Eva has run for the Surrey Yoga Society, oldest first.
+// TODO(Eva): add the month/year for each.
+const pastRetreats = [
+  { place: 'South Downs', text: 'The first one, and very much a test run.' },
+  { place: 'Cyprus', text: 'Our first retreat abroad.' },
+  { place: 'West Lexham, Norfolk', text: "The one I'm proudest of, where I worked out what I want a retreat to be. Fully catered and all-inclusive, with a pool and walks on the doorstep, so people could properly switch off." },
+];
+
 // Retreat styles Eva wants to build towards. Edit freely.
 const retreatIdeas = [
   { title: 'Run & yoga', text: 'Morning flow, a run in the middle of the day, and a slow stretch in the evening. One workshop on mobility for runners.' },
@@ -58,9 +66,16 @@ const retreatIdeas = [
       <h2 class="label">Retreats</h2>
       <div class="content">
         <p>
-          Retreats are where it all comes together. I've planned and led three for the yoga society, in England
-          and Cyprus, and these are the kinds I'd love to run next. The active ones keep the yoga to a
-          morning and an evening session, so the day is free for the activity.
+          Retreats are where it all comes together. I've planned and led three for the yoga society so far.
+        </p>
+        <ul class="past">
+          {pastRetreats.map((r) => (
+            <li><span class="idea-title">{r.place}</span><span class="idea-text">{r.text}</span></li>
+          ))}
+        </ul>
+        <p class="next">
+          These are the kinds I'd love to run next. The active ones keep the yoga to a morning and an evening
+          session, so the day is free for the activity.
         </p>
         <ol class="ideas">
           {retreatIdeas.map((i) => (
@@ -152,9 +167,14 @@ const retreatIdeas = [
   .race-time { font-family: var(--serif); font-size: 1.4rem; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .upcoming .race-time { font-family: var(--body-font); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--clay); }
 
+  .past { list-style: none; padding: 0; margin: 24px 0 40px; }
+  .past li { display: grid; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .past li:first-child { border-top: 1px solid var(--line); }
+  .next { margin-top: 8px; }
   .ideas { counter-reset: idea; }
   .ideas li { counter-increment: idea; display: grid; grid-template-columns: 2.2em 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .ideas li::before { content: counter(idea, decimal-leading-zero); color: var(--sage); font-size: .85rem; padding-top: .25em; }
   .idea-title { font-family: var(--serif); font-size: 1.1rem; color: var(--heading); }
-  .idea-text { grid-column: 2; color: var(--muted); font-size: .95rem; }
+  .idea-text { color: var(--muted); font-size: .95rem; }
+  .ideas .idea-text { grid-column: 2; }
 </style>
