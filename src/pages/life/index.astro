@@ -23,30 +23,45 @@ const retreatIdeas = [
   <div class="page">
     <header class="intro">
       <p class="kicker">Yoga · Running · Retreats</p>
-      <h1>Move well,<br /><em>together.</em></h1>
+      <h1>Outside, moving,<br /><em>with good people.</em></h1>
       <p class="lead">
-        I teach yoga, I'm learning to run long, and I love bringing people somewhere beautiful to do both.
-        Everything here comes back to one thing: making movement feel welcoming, and building community around it.
+        Yoga classes, races and retreats: the things I spend my time on away from a screen, and the
+        people I get to do them with.
       </p>
     </header>
+
+    <section>
+      <h2 class="label">Background</h2>
+      <div class="content">
+        <p>
+          I grew up in Stavanger, on the west coast of Norway, spending most weekends skiing from our family
+          cabin. These days that's ski touring with my dad, most recently in Japan.
+        </p>
+        <p>
+          Before yoga and distance running, it was sprinting and handball. Somewhere along the way I've also been
+          to 35 countries, many of them solo, which is mostly how I learned to turn up somewhere new and
+          make friends quickly.
+        </p>
+      </div>
+    </section>
 
     <section>
       <h2 class="label">Yoga</h2>
       <div class="content">
         <p>
-          I'm a certified yoga teacher. I teach weekly classes and lead retreats for the Surrey Yoga Society,
-          where I was president for two terms. When I started teaching, I focused on making classes feel like a
-          community rather than just a class, and attendance doubled.
+          I completed my 200-hour yoga teacher training and now teach weekly classes for the Surrey Yoga Society,
+          where I was president for two terms. The focus has always been on making the classes feel like a
+          community, open to complete beginners, and attendance doubled in the year I started teaching.
         </p>
         <p>
-          Next is my 300-hour training, with a focus on yoga for runners: mobility, strength and recovery for
-          people who spend a lot of time on their feet.
+          Lately I've been leaning towards yoga for runners: mobility, strength and recovery for people who spend
+          a lot of time on their feet.
         </p>
-        <!-- TODO(Eva): your 200hr school/style, and a photo of you teaching -->
+        <!-- TODO(Eva): add where you did your 200hr and the style (e.g. vinyasa, hatha), and a photo of you teaching -->
         <dl class="figures">
+          <div><dt>200hr</dt><dd>YTT certified</dd></div>
           <div><dt>~40</dt><dd>people a week</dd></div>
           <div><dt>3</dt><dd>retreats led</dd></div>
-          <div><dt>300hr</dt><dd>training next</dd></div>
         </dl>
       </div>
     </section>
@@ -55,8 +70,8 @@ const retreatIdeas = [
       <h2 class="label">Running</h2>
       <div class="content">
         <p>
-          I was a sprinter and handball player, and distance running was the punishment for turning up late.
-          In 2026 I decided to change that.
+          Until April 2026, 500 metres was the furthest I'd ever run. Distance running was what you got as
+          punishment for turning up late to handball. Then I signed up for a marathon.
         </p>
         <ul class="races">
           {upcoming.map((r) => (
@@ -79,34 +94,14 @@ const retreatIdeas = [
       <h2 class="label">Retreats</h2>
       <div class="content">
         <p>
-          I've planned and led three retreats for the yoga society, in England and abroad. One day I'd like to
-          build retreats that pair movement with places worth travelling to.
+          Retreats are where it all comes together. I've planned and led three for the yoga society, in England
+          and Cyprus, and these are the kinds I'd love to run next.
         </p>
         <ol class="ideas">
           {retreatIdeas.map((i) => (
             <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
           ))}
         </ol>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="label">Snow</h2>
-      <div class="content">
-        <p>
-          I grew up skiing every weekend at our family cabin in Norway, and now go ski touring with my dad, most
-          recently in Japan. Norwegian even has a word, <em>føre</em>, for the conditions snow creates.
-        </p>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="label">Elsewhere</h2>
-      <div class="content">
-        <p>
-          35 countries, many of them solo. Travelling alone taught me to walk into somewhere new and get to know
-          people quickly, which is most of what a good retreat needs.
-        </p>
       </div>
     </section>
   </div>
