@@ -28,5 +28,14 @@ const base = import.meta.env.BASE_URL;
   .back { display: inline-block; margin-bottom: 32px; text-decoration: none; }
   .tags { margin: 20px 0 40px; }
   .body :global(p) { font-size: 1.05rem; }
-  .body :global(strong) { color: var(--forest); }
+  .body :global(strong) { color: var(--text); }
+  .body :global(h2) { font-size: 1.35rem; margin: 2.4em 0 .6em; }
+  .body :global(ul), .body :global(ol) { padding-left: 1.2em; margin: 0 0 1.2em; }
+  .body :global(li) { font-size: 1.05rem; margin: .45em 0; color: var(--muted); }
+  .body :global(li strong) { color: var(--text); }
+  .body :global(table) { width: 100%; border-collapse: collapse; margin: 1.2em 0 1.6em; font-size: .95rem; }
+  .body :global(th), .body :global(td) { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .body :global(th) { color: var(--muted); font-weight: 500; }
+  .body :global(td:last-child), .body :global(th:last-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  .body :global(.note) { font-size: .9rem; color: var(--muted); }
 </style>
