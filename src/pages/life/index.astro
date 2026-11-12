@@ -8,12 +8,18 @@ const upcoming = races.filter((r) => r.data.date > now).reverse();
 const done = races.filter((r) => r.data.date <= now);
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
-// Retreats Eva has run for the Surrey Yoga Society, oldest first.
-// TODO(Eva): add the month/year for each.
+// Retreats Eva has planned for the Surrey Yoga Society, newest first.
 const pastRetreats = [
-  { place: 'South Downs', text: 'The first one, and very much a test run.' },
-  { place: 'Cyprus', text: 'Our first retreat abroad.' },
-  { place: 'West Lexham, Norfolk', text: "The one I'm proudest of, where I worked out what I want a retreat to be. Fully catered and all-inclusive, with a pool and walks on the doorstep, so people could properly switch off." },
+  { place: 'Mountains, somewhere snow-free', when: 'April 2027', kind: 'Hiking & yoga', upcoming: true,
+    text: 'In planning. Probably the Alps, with long days on the trails and yoga either side of them.' },
+  { place: 'West Lexham, Norfolk', when: 'October 2026', kind: 'Yoga retreat',
+    text: "The one I'm proudest of, and where I worked out what I want a retreat to be. Fully catered with family-style meals, wild swimming, a little library, film nights and s'mores, so people could properly switch off." },
+  { place: 'Cyprus', when: 'April 2026', kind: 'Yoga & island',
+    text: 'A younger, more social one that I oversaw: boat tours, yoga on the beach and a karaoke night.' },
+  { place: 'South Downs', when: 'November 2025', kind: 'Hiking & yoga',
+    text: 'Our own space for the weekend, with hikes, yoga and bracelet making. I cooked every meal myself, which taught me to leave the catering to someone else next time.' },
+  { place: 'Newquay, Cornwall', when: 'May 2025', kind: 'Surf & yoga',
+    text: 'The first one I planned: beach yoga and a surf session. A test run that taught me how much the venue matters.' },
 ];
 
 // Retreat styles Eva wants to build towards. Edit freely.
@@ -57,7 +63,7 @@ const retreatIdeas = [
         <dl class="figures">
           <div><dt>200hr</dt><dd>YTT certified</dd></div>
           <div><dt>~40</dt><dd>students a week</dd></div>
-          <div><dt>3</dt><dd>retreats led</dd></div>
+          <div><dt>4</dt><dd>retreats planned</dd></div>
         </dl>
       </div>
     </section>
@@ -66,11 +72,16 @@ const retreatIdeas = [
       <h2 class="label">Retreats</h2>
       <div class="content">
         <p>
-          Retreats are where it all comes together. I've planned and led three for the yoga society so far.
+          Retreats are where it all comes together. I've planned four for the yoga society so far, each one a
+          little better than the last.
         </p>
         <ul class="past">
           {pastRetreats.map((r) => (
-            <li><span class="idea-title">{r.place}</span><span class="idea-text">{r.text}</span></li>
+            <li class:list={[{ upcoming: r.upcoming }]}>
+              <span class="when">{r.upcoming ? `Next · ${r.when}` : r.when} · {r.kind}</span>
+              <span class="idea-title">{r.place}</span>
+              <span class="idea-text">{r.text}</span>
+            </li>
           ))}
         </ul>
         <p class="next">
@@ -171,6 +182,8 @@ const retreatIdeas = [
   .past li { display: grid; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .past li:first-child { border-top: 1px solid var(--line); }
   .next { margin-top: 8px; }
+  .when { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); margin-bottom: 2px; }
+  .past .upcoming .when { color: var(--clay); }
   .ideas { counter-reset: idea; }
   .ideas li { counter-increment: idea; display: grid; grid-template-columns: 2.2em 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); }
   .ideas li::before { content: counter(idea, decimal-leading-zero); color: var(--sage); font-size: .85rem; padding-top: .25em; }
