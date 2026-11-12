@@ -14,7 +14,7 @@ import { upcomingRetreat, pastWithPhotos, pastNoPhotos, retreatIdeas } from '../
   </header>
 
   <section>
-    <h2 class="label">Past retreats</h2>
+    <h2 class="label">What's next</h2>
     <div class="content">
       {upcomingRetreat && (
         <article class="rcard upcoming">
@@ -23,6 +23,20 @@ import { upcomingRetreat, pastWithPhotos, pastNoPhotos, retreatIdeas } from '../
           <p>{upcomingRetreat.text}</p>
         </article>
       )}
+      <p>
+        After that, these are the kinds I'd love to run. The active ones keep the yoga to a morning and an evening
+        session, so the day is free for the activity.
+      </p>
+      <ol class="ideas">
+        {retreatIdeas.map((i) => (
+          <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <section>
+    <h2 class="label">Past retreats</h2>
+    <div class="content">
       {pastWithPhotos.map((r) => <RetreatCard r={r} />)}
       {pastNoPhotos.length > 0 && (
         <div class="cards">
@@ -38,18 +52,4 @@ import { upcomingRetreat, pastWithPhotos, pastNoPhotos, retreatIdeas } from '../
     </div>
   </section>
 
-  <section>
-    <h2 class="label">What's next</h2>
-    <div class="content">
-      <p>
-        These are the kinds I'd love to run next. The active ones keep the yoga to a morning and an evening
-        session, so the day is free for the activity.
-      </p>
-      <ol class="ideas">
-        {retreatIdeas.map((i) => (
-          <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
-        ))}
-      </ol>
-    </div>
-  </section>
 </LifeShell>

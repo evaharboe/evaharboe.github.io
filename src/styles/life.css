@@ -79,3 +79,16 @@
   .lp .tabs a { white-space: nowrap; padding: 6px 12px; }
   .lp .figures { gap: 24px; }
 }
+
+/* Slim link rows on the overview */
+.lp .strips { border-top: 1px solid var(--line); margin-bottom: 24px; }
+.lp .strips a { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--text); }
+@media (min-width: 760px) { .lp .strips a { grid-template-columns: 180px 1fr auto; gap: 40px; } }
+.lp .strips .label { margin: 0; }
+.lp .strip-text { font-family: var(--serif); font-size: 1.1rem; color: var(--heading); grid-column: 1; }
+@media (min-width: 760px) { .lp .strip-text { grid-column: auto; } }
+.lp .strips .arrow { color: var(--moss); grid-row: 1 / span 2; grid-column: 2; }
+@media (min-width: 760px) { .lp .strips .arrow { grid-row: auto; grid-column: auto; } }
+.lp .strips a:hover .strip-text { color: var(--moss); }
+.lp .ideas + .rcard, .lp section .content > .rcard.upcoming:first-child { margin-top: 0; }
+.lp .rcard.upcoming + p { margin-top: 28px; }

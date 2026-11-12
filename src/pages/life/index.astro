@@ -1,10 +1,13 @@
 ---
 import LifeShell from '../../components/LifeShell.astro';
 import RetreatCard from '../../components/RetreatCard.astro';
-import RaceList from '../../components/RaceList.astro';
-import { pastWithPhotos } from '../../data/life';
+import { getCollection } from 'astro:content';
+import { pastWithPhotos, upcomingRetreat } from '../../data/life';
 const base = import.meta.env.BASE_URL;
 const latest = pastWithPhotos[0];
+const now = new Date();
+const nextRace = (await getCollection('races')).filter((r) => r.data.date > now).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())[0];
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 ---
 <LifeShell current="overview" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
   <header class="intro">
@@ -35,30 +38,29 @@ const latest = pastWithPhotos[0];
   <section>
     <h2 class="label">Retreats</h2>
     <div class="content">
-      <p>Retreats are where it all comes together. The most recent one:</p>
+      <p>Retreats are where it all comes together.</p>
+      {upcomingRetreat && (
+        <article class="rcard upcoming">
+          <span class="when">Next · {upcomingRetreat.when} · {upcomingRetreat.kind}</span>
+          <h3>{upcomingRetreat.place}</h3>
+          <p>{upcomingRetreat.text}</p>
+        </article>
+      )}
       {latest && <RetreatCard r={latest} teaser />}
       <a class="more" href={`${base}life/retreats/`}>All retreats and what's next →</a>
     </div>
   </section>
 
-  <section>
-    <h2 class="label">Running</h2>
-    <div class="content">
-      <p>Until April 2026, 500 metres was the furthest I'd ever run.</p>
-      <RaceList limit={2} />
-      <a class="more" href={`${base}life/running/`}>All races →</a>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="label">About me</h2>
-    <div class="content">
-      <p>
-        I was born in China and grew up in Stavanger, on Norway's west coast, in a Norwegian-French family.
-        Most weekends we'd head up to the family cabin to ski in winter and hike the rest of the year, so being
-        outside was never something I had to plan.
-      </p>
-      <a class="more" href={`${base}life/about/`}>Read the rest →</a>
-    </div>
-  </section>
+  <nav class="strips" aria-label="More on the Life side">
+    <a href={`${base}life/running/`}>
+      <span class="label">Running</span>
+      <span class="strip-text">{nextRace ? <>Next race: {nextRace.data.name}, {fmt(nextRace.data.date)}</> : 'All my races so far'}</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href={`${base}life/about/`}>
+      <span class="label">About me</span>
+      <span class="strip-text">From Stavanger and handball to yoga, running and retreats</span>
+      <span class="arrow">→</span>
+    </a>
+  </nav>
 </LifeShell>
