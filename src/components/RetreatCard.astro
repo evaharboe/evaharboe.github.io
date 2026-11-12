@@ -1,0 +1,19 @@
+---
+import { img, type Retreat } from '../data/life';
+interface Props { r: Retreat; teaser?: boolean }
+const { r, teaser = false } = Astro.props;
+const photos = r.photos ?? [];
+---
+<article class:list={['featured', { teaser }]}>
+  {photos[0] && <img class="cover" src={img(photos[0].src)} alt={photos[0].alt} loading="lazy" />}
+  <div class="featured-body">
+    <span class="when">{r.when} · {r.kind}</span>
+    <h3>{r.place}</h3>
+    <p>{r.text}</p>
+  </div>
+  {!teaser && photos.length > 1 && (
+    <div class:list={['gallery', `n${photos.length - 1}`]}>
+      {photos.slice(1).map((ph) => <img src={img(ph.src)} alt={ph.alt} loading="lazy" />)}
+    </div>
+  )}
+</article>

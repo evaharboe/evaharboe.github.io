@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+interface Props { limit?: number }
+const { limit } = Astro.props;
+const races = (await getCollection('races')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const now = new Date();
+const upcoming = races.filter((r) => r.data.date > now).reverse();
+const done = races.filter((r) => r.data.date <= now);
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+const rows = [
+  ...upcoming.map((r) => ({ r, up: true })),
+  ...done.map((r) => ({ r, up: false })),
+].slice(0, limit ?? Infinity);
+---
+<ul class="races">
+  {rows.map(({ r, up }) => (
+    <li class:list={{ upcoming: up }}>
+      <span class="race-name">{r.data.name}<small>{r.data.distance} · {fmt(r.data.date)}</small></span>
+      <span class="race-time">{up ? 'Coming up' : r.data.time}</span>
+    </li>
+  ))}
+</ul>

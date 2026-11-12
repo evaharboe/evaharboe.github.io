@@ -1,282 +1,64 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-
-const races = (await getCollection('races')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const now = new Date();
-const upcoming = races.filter((r) => r.data.date > now).reverse();
-const done = races.filter((r) => r.data.date <= now);
-const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-
-// Retreats Eva has planned for the Surrey Yoga Society, newest first.
-const pastRetreats = [
-  { place: 'Mountains, somewhere snow-free', when: 'April 2027', kind: 'Hiking & yoga', upcoming: true,
-    text: 'In planning. Probably the Alps, with long days on the trails and yoga either side of them.' },
-  { place: 'West Lexham, Norfolk', when: 'October 2026', kind: 'Yoga retreat', featured: true,
-    photos: [
-      { src: 'west-lexham-meditation.webp', alt: 'Morning meditation in the sunlit yoga room at West Lexham' },
-      { src: 'west-lexham-garden.webp', alt: 'Walking through the gardens at West Lexham at sunset' },
-      { src: 'west-lexham-breakfast.webp', alt: 'Breakfast spread at West Lexham' },
-      { src: 'west-lexham-pond.webp', alt: 'The pond at West Lexham in autumn' },
-      { src: 'west-lexham-smores.webp', alt: "Toasting s'mores by the fire" },
-    ],
-    text: "The one I'm proudest of, and where I worked out what I want a retreat to be. Fully catered with family-style meals, wild swimming, a little library, film nights and s'mores, so people could properly switch off. I taught all the yoga." },
-  { place: 'Cyprus', when: 'April 2026', kind: 'Yoga & island',
-    photos: [
-      { src: 'cyprus-yoga.webp', alt: 'Beach yoga among the palms in Cyprus' },
-      { src: 'cyprus-swim.webp', alt: 'Wading into the sea at sunset' },
-      { src: 'cyprus-caves.webp', alt: 'Sea caves and turquoise water on the boat trip' },
-      { src: 'cyprus-boat-2.webp', alt: 'On the boat tour, looking out over turquoise water' },
-      { src: 'cyprus-dinner.webp', alt: 'Dinner out: chicken, potatoes and salad' },
-    ],
-    text: 'A younger, more social one that I oversaw: boat tours, yoga on the beach and a karaoke night. We hired local teachers for the yoga, to try something different.' },
-  { place: 'South Downs', when: 'November 2025', kind: 'Hiking & yoga',
-    text: 'Our own space for the weekend, with hikes, yoga and bracelet making. I taught the yoga and cooked every meal myself. Next time, someone else can do the catering.',
-    photos: [
-      { src: 'south-downs-stretch-crop.webp', alt: 'Side stretches under the fairy lights' },
-      { src: 'south-downs-woods.webp', alt: 'Walking through autumn beech woods' },
-      { src: 'south-downs-cooking.webp', alt: 'Cooking dinner for everyone' },
-      { src: 'south-downs-horses.webp', alt: 'Horses grazing next to the house' },
-      { src: 'south-downs-village.webp', alt: 'Walking through a village on the downs' },
-    ] },
-  { place: 'Newquay, Cornwall', when: 'May 2025', kind: 'Surf & yoga',
-    text: 'The first one I planned, together with Blue Surf School, who ran the beach yoga and the surf lessons. A test run that taught me how much the venue matters.',
-    photos: [
-      { src: 'newquay-tree-pose-2.webp', alt: 'Tree pose together on the beach in Cornwall' },
-      { src: 'newquay-ice-cream.webp', alt: 'Ice cream above the beach' },
-      { src: 'newquay-coast-2.webp', alt: 'Turquoise water and rocks along the Cornish coast' },
-      { src: 'newquay-sunset-3.webp', alt: 'Sunset over the Atlantic' },
-      { src: 'newquay-surf.webp', alt: 'Heading out for the surf lesson with Blue Surf School' },
-    ] },
-];
-
-// Retreat styles Eva wants to build towards. Edit freely.
-const retreatIdeas = [
-  { title: 'Run & yoga', text: 'Morning flow, a run in the middle of the day, and a slow stretch in the evening. One workshop on mobility for runners.' },
-  { title: 'Hike & yoga', text: 'Morning flow, a long day in the mountains, and an evening session to recover.' },
-  { title: 'Ski & yoga', text: 'Morning flow, a day on the mountain, and a long evening stretch for tired legs.' },
-  { title: 'Golf & yoga', text: "Morning mobility, a round in the afternoon, and an evening stretch. For people who'd rather not wait until retirement to take up golf." },
-  { title: 'Pure yoga', text: 'Three sessions a day, with workshops like handstands and inversions, and plenty of time to rest in between.' },
-];
-
-// Life side. IMPORTANT (visa): until the Graduate visa, keep this page about practice and community.
-// No prices, booking links or "hire me". An "Offerings" / "For workplaces" section can go in from July 2027.
-const img = (f: string) => `${import.meta.env.BASE_URL}images/retreats/${f}`;
-const upcomingRetreat = pastRetreats.find((r) => r.upcoming);
-const withPhotos = pastRetreats.filter((r) => !r.upcoming && r.photos);
-const others = pastRetreats.filter((r) => !r.upcoming && !r.photos);
+import LifeShell from '../../components/LifeShell.astro';
+import RetreatCard from '../../components/RetreatCard.astro';
+import RaceList from '../../components/RaceList.astro';
+import { pastWithPhotos } from '../../data/life';
+const base = import.meta.env.BASE_URL;
+const latest = pastWithPhotos[0];
 ---
-<Base side="life" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
-  <div class="page">
-    <header class="intro">
-      <p class="kicker">Yoga · Running · Retreats</p>
-      <h1>Off the <em>screen.</em></h1>
-      <p class="lead">
-        Yoga classes, races and retreats: the things I spend my time on away from a screen, and the
-        people I get to do them with.
+<LifeShell current="overview" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
+  <header class="intro">
+    <p class="kicker">Yoga · Running · Retreats</p>
+    <h1>Off the <em>screen.</em></h1>
+    <p class="lead">
+      Yoga classes, races and retreats: the things I spend my time on away from a screen, and the
+      people I get to do them with.
+    </p>
+  </header>
+
+  <section>
+    <h2 class="label">Yoga</h2>
+    <div class="content">
+      <p>
+        I trained at House of Om in Ubud, Bali, and now teach weekly classes for the Surrey Yoga Society, mostly
+        rocket or power vinyasa, with the odd slow, yin-style stretch. Classes are open to complete beginners.
       </p>
-      <nav class="jump" aria-label="On this page">
-        <a href="#yoga">Yoga</a><a href="#retreats">Retreats</a><a href="#running">Running</a><a href="#about">About me</a>
-      </nav>
-    </header>
+      <dl class="figures">
+        <div><dt>200hr</dt><dd>YTT certified</dd></div>
+        <div><dt>~40</dt><dd>students a week</dd></div>
+        <div><dt>4</dt><dd>retreats planned</dd></div>
+      </dl>
+      <a class="more" href={`${base}life/yoga/`}>More on my yoga →</a>
+    </div>
+  </section>
 
-    <section id="yoga">
-      <h2 class="label">Yoga</h2>
-      <div class="content">
-        <p>
-          I did my 200-hour yoga teacher training at House of Om in Ubud, Bali, a mix of vinyasa and hatha with
-          some ashtanga and meditation. Now I teach weekly classes for the Surrey Yoga Society, where I was president
-          for two terms. Classes are open to complete beginners, and the focus has always been on making them feel
-          like a community. Attendance doubled in the year I started teaching.
-        </p>
-        <p>
-          My classes are usually rocket or power vinyasa, and sometimes slower stretching sessions with more of a
-          yin feel. Lately I've been leaning towards yoga for runners: mobility, strength and recovery for people
-          who spend a lot of time on their feet.
-        </p>
-        <!-- TODO(Eva): a photo of you teaching -->
-        <dl class="figures">
-          <div><dt>200hr</dt><dd>YTT certified</dd></div>
-          <div><dt>~40</dt><dd>students a week</dd></div>
-          <div><dt>4</dt><dd>retreats planned</dd></div>
-        </dl>
-      </div>
-    </section>
+  <section>
+    <h2 class="label">Retreats</h2>
+    <div class="content">
+      <p>Retreats are where it all comes together. The most recent one:</p>
+      {latest && <RetreatCard r={latest} teaser />}
+      <a class="more" href={`${base}life/retreats/`}>All retreats and what's next →</a>
+    </div>
+  </section>
 
-    <section id="retreats" class="wide">
-      <h2 class="label">Past retreats</h2>
-      <div class="content">
-        <p>
-          Retreats are where it all comes together. I've planned four for the yoga society so far, each one a
-          little better than the last.
-        </p>
+  <section>
+    <h2 class="label">Running</h2>
+    <div class="content">
+      <p>Until April 2026, 500 metres was the furthest I'd ever run.</p>
+      <RaceList limit={2} />
+      <a class="more" href={`${base}life/running/`}>All races →</a>
+    </div>
+  </section>
 
-        {upcomingRetreat && (
-          <article class="rcard upcoming">
-            <span class="when">Next · {upcomingRetreat.when} · {upcomingRetreat.kind}</span>
-            <h3>{upcomingRetreat.place}</h3>
-            <p>{upcomingRetreat.text}</p>
-          </article>
-        )}
-
-        {withPhotos.map((r) => (
-          <article class="featured">
-            <img class="cover" src={img(r.photos![0].src)} alt={r.photos![0].alt} loading="lazy" />
-            <div class="featured-body">
-              <span class="when">{r.when} · {r.kind}</span>
-              <h3>{r.place}</h3>
-              <p>{r.text}</p>
-            </div>
-            <div class:list={['gallery', `n${r.photos!.length - 1}`]}>
-              {r.photos!.slice(1).map((ph) => <img src={img(ph.src)} alt={ph.alt} loading="lazy" />)}
-            </div>
-          </article>
-        ))}
-
-        <div class="cards">
-          {others.map((r) => (
-            <article class="rcard">
-              <span class="when">{r.when} · {r.kind}</span>
-              <h3>{r.place}</h3>
-              <p>{r.text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="label">What's next</h2>
-      <div class="content">
-        <p>
-          These are the kinds I'd love to run next. The active ones keep the yoga to a morning and an evening
-          session, so the day is free for the activity.
-        </p>
-        <ol class="ideas">
-          {retreatIdeas.map((i) => (
-            <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
-          ))}
-        </ol>
-      </div>
-    </section>
-
-    <section id="running">
-      <h2 class="label">Running</h2>
-      <div class="content">
-        <p>
-          Until April 2026, 500 metres was the furthest I'd ever run. Here's how it's going so far.
-        </p>
-        <ul class="races">
-          {upcoming.map((r) => (
-            <li class="upcoming">
-              <span class="race-name">{r.data.name}<small>{r.data.distance} · {fmt(r.data.date)}</small></span>
-              <span class="race-time">Coming up</span>
-            </li>
-          ))}
-          {done.map((r) => (
-            <li>
-              <span class="race-name">{r.data.name}<small>{r.data.distance} · {fmt(r.data.date)}</small></span>
-              <span class="race-time">{r.data.time}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <section id="about">
-      <h2 class="label">About me</h2>
-      <div class="content">
-        <p>
-          I was born in China and grew up in Stavanger, on Norway's west coast, in a Norwegian-French family.
-          Most weekends we'd head up to the family cabin to ski in winter and hike the rest of the year, so being
-          outside was never something I had to plan. It was just what we did.
-        </p>
-        <p>
-          Sport was the other constant. I tried almost every sport going, from swimming and climbing to dance and
-          martial arts, but handball was the one I stuck with, from Year 5 to about Year 10. Yoga came in almost by
-          accident, as a way to get more flexible for matches. Somewhere along the way that flipped: the yoga stayed and the handball
-          didn't.
-        </p>
-        <p>
-          Then I moved to England for university, and the mountains were suddenly a long way off. Surrey has hills,
-          but they barely count. So I started running, mostly as an excuse to get outside, and soon found that the
-          slower and longer I went, the more I enjoyed it. When you're not chasing a pace, you actually notice where
-          you are. That's how a way to get some fresh air turned into training for a marathon.
-        </p>
-        <p>
-          Travel has run alongside all of it. I've been to 35 countries, many of them on my own, and what stays with
-          me is never really the sights. It's the people I met and the time we spent together. That's what I want
-          retreats to be: a group of people somewhere beautiful, moving together and leaving with good memories.
-        </p>
-      </div>
-    </section>
-
-  </div>
-</Base>
-
-<style>
-  .page { max-width: 880px; margin: 0 auto; padding: 0 20px; }
-  @media (min-width: 700px) { .page { padding: 0 40px; } }
-
-  .intro { padding: 120px 0 88px; }
-  .kicker { font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--sage); margin-bottom: 1.6em; }
-  h1 { font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.05; margin-bottom: .6em; }
-  h1 em { font-style: italic; color: var(--moss); }
-  .lead { font-size: 1.15rem; max-width: 560px; }
-
-  section { display: grid; gap: 12px; padding: 48px 0; border-top: 1px solid var(--line); }
-  @media (min-width: 760px) { section { grid-template-columns: 180px 1fr; gap: 40px; } }
-  .label { font-family: var(--body-font); font-size: .78rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--sage); margin: .45em 0 0; }
-  .content { max-width: 600px; }
-  .content > p { color: #3b3a33; }
-
-  .figures { display: flex; gap: 40px; flex-wrap: wrap; margin: 32px 0 0; }
-  .figures div { display: flex; flex-direction: column; }
-  .figures dt { font-family: var(--serif); font-size: 2rem; color: var(--clay); line-height: 1.1; }
-  .figures dd { margin: 0; font-size: .85rem; color: var(--muted); }
-
-  .races, .ideas { list-style: none; padding: 0; margin: 28px 0 0; }
-  .races li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-  .races li:first-child { border-top: 1px solid var(--line); }
-  .race-name { font-family: var(--serif); font-size: 1.15rem; color: var(--heading); }
-  .race-name small { display: block; font-family: var(--body-font); font-size: .82rem; color: var(--muted); margin-top: 2px; }
-  .race-time { font-family: var(--serif); font-size: 1.4rem; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .upcoming .race-time { font-family: var(--body-font); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--clay); }
-
-  section { scroll-margin-top: 80px; }
-  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; }
-  .jump a { font-size: .85rem; text-decoration: none; color: var(--text); padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; }
-  .jump a:hover { background: var(--sage-soft); }
-
-  .featured { margin: 20px 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
-  .cover { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 60%; }
-  .featured-body { padding: 22px 24px 8px; }
-  .featured-body h3, .rcard h3 { font-size: 1.3rem; margin: 4px 0 8px; }
-  .featured-body p, .rcard p { color: var(--muted); font-size: .95rem; margin: 0; }
-  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 16px 24px 24px; }
-  .gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
-  @media (max-width: 560px) { .gallery:not(.n3) { grid-template-columns: repeat(2, 1fr); } }
-  .featured img, .gallery img { filter: saturate(.92) sepia(.06); }
-
-  .cards { display: grid; gap: 16px; }
-  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
-  .rcard { border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: flex; flex-direction: column; }
-  .rcard.upcoming { border-style: dashed; border-color: var(--clay); margin-top: 32px; }
-  .gallery.n2 { grid-template-columns: repeat(2, 1fr); }
-  .gallery.n2 img { aspect-ratio: 4 / 3; }
-  .gallery.n3 { grid-template-columns: repeat(3, 1fr); }
-  .rcard.upcoming .when { color: var(--clay); }
-  .when { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); }
-
-  .past { list-style: none; padding: 0; margin: 24px 0 40px; }
-  .past li { display: grid; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .past li:first-child { border-top: 1px solid var(--line); }
-  .next { margin-top: 8px; }
-
-  .ideas { counter-reset: idea; }
-  .ideas li { counter-increment: idea; display: grid; grid-template-columns: 2.2em 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .ideas li::before { content: counter(idea, decimal-leading-zero); color: var(--sage); font-size: .85rem; padding-top: .25em; }
-  .idea-title { font-family: var(--serif); font-size: 1.1rem; color: var(--heading); }
-  .idea-text { color: var(--muted); font-size: .95rem; }
-  .ideas .idea-text { grid-column: 2; }
-</style>
+  <section>
+    <h2 class="label">About me</h2>
+    <div class="content">
+      <p>
+        I was born in China and grew up in Stavanger, on Norway's west coast, in a Norwegian-French family.
+        Most weekends we'd head up to the family cabin to ski in winter and hike the rest of the year, so being
+        outside was never something I had to plan.
+      </p>
+      <a class="more" href={`${base}life/about/`}>Read the rest →</a>
+    </div>
+  </section>
+</LifeShell>
