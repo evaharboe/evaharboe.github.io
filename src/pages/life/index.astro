@@ -55,6 +55,21 @@ const retreatIdeas = [
     </section>
 
     <section>
+      <h2 class="label">Retreats</h2>
+      <div class="content">
+        <p>
+          Retreats are where it all comes together. I've planned and led three for the yoga society, in England
+          and Cyprus, and these are the kinds I'd love to run next. The active ones keep the yoga to a
+          morning and an evening session, so the day is free for the activity.
+        </p>
+        <ol class="ideas">
+          {retreatIdeas.map((i) => (
+            <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+    <section>
       <h2 class="label">Running</h2>
       <div class="content">
         <p>
@@ -77,21 +92,6 @@ const retreatIdeas = [
       </div>
     </section>
 
-    <section>
-      <h2 class="label">Retreats</h2>
-      <div class="content">
-        <p>
-          Retreats are where it all comes together. I've planned and led three for the yoga society, in England
-          and Cyprus, and these are the kinds I'd love to run next. The active ones keep the yoga to a
-          morning and an evening session, so the day is free for the activity.
-        </p>
-        <ol class="ideas">
-          {retreatIdeas.map((i) => (
-            <li><span class="idea-title">{i.title}</span><span class="idea-text">{i.text}</span></li>
-          ))}
-        </ol>
-      </div>
-    </section>
     <section id="about">
       <h2 class="label">About me</h2>
       <div class="content">
@@ -101,8 +101,9 @@ const retreatIdeas = [
           outside was never something I had to plan. It was just what we did.
         </p>
         <p>
-          Sport was the other constant. I played handball for years, and yoga came in almost by accident, as a way
-          to get more flexible for matches. Somewhere along the way that flipped: the yoga stayed and the handball
+          Sport was the other constant. I tried almost every sport going, from swimming and climbing to dance and
+          martial arts, but handball was the one I stuck with, from Year 5 to about Year 10. Yoga came in almost by
+          accident, as a way to get more flexible for matches. Somewhere along the way that flipped: the yoga stayed and the handball
           didn't.
         </p>
         <p>
