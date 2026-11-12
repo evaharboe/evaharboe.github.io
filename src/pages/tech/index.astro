@@ -12,8 +12,25 @@ const experience = [
     text: 'Built the vehicle booking and society management pages for a portal serving 17,000+ students, plus reusable templates so staff could publish safely.' },
   { role: 'Summer Programme: Robotics & AI Strategy', org: 'Seoul National University, South Korea', period: 'Summer 2024',
     text: 'Built and programmed a small humanoid robot, and researched a computer-vision guide dog proof of concept. Found that social trust, not technical feasibility, was the biggest barrier to adoption. Graded A+.' },
+  { role: 'Founder & Owner', org: 'Luwa, Stavanger', period: 'Jun 2022 – Jun 2023',
+    text: 'Started and ran a small jewellery business: product design, pricing, suppliers and manufacturing, plus an online store and its marketing.' },
   { role: 'BSc (Hons) Computer Science', org: 'University of Surrey', period: '2023 – 2027',
-    text: 'On track for a First. Dean’s List 2023/24 and 2024/25. Final year project with CVSSP.' },
+    text: 'On track for a First. Dean’s List 2023/24 and 2024/25. Final year project with CVSSP. PALS mentor and lab assistant, course representative and EDI committee member.' },
+];
+
+const leadership = [
+  { role: 'President (two terms) & yoga teacher', org: 'Surrey Yoga Society', period: 'Apr 2024 – Jun 2026',
+    text: 'Doubled average class attendance in a year by refocusing on community. Led a 9-person committee and ran the budgets and logistics for retreats in the UK and Cyprus.' },
+  { role: 'UK Head of Digital Strategy', org: 'ANSA (Association of Norwegian Students Abroad)', period: 'Mar 2024 – Jun 2025',
+    text: 'Ran the digital channels and kept the brand consistent across 14 UK regional groups.' },
+];
+
+const awards = [
+  'Dean’s List, University of Surrey (2023/24 and 2024/25)',
+  'SETsquared iKEEP Intrapreneurial Training Award',
+  'Global Graduate Award in Entrepreneurship (83%)',
+  'Finalist, Hackathon17',
+  'Pitching competition, 2nd place (2021)',
 ];
 
 const skills = ['TypeScript', 'React', 'ReactFlow', 'Zustand', 'Vue / Nuxt', 'Node.js', 'Django', 'Python', 'PyTorch', 'ONNX Runtime', 'TensorRT', 'Java', 'Kotlin', 'Jetpack Compose', 'SQL', 'AWS', 'Git'];
@@ -59,6 +76,24 @@ const skills = ['TypeScript', 'React', 'ReactFlow', 'Zustand', 'Vue / Nuxt', 'No
     </div>
   </section>
 
+  <section>
+    <div class="wrap">
+      <h2>Leadership</h2>
+      <ol class="timeline">
+        {leadership.map((e) => (
+          <li>
+            <p class="period">{e.period}</p>
+            <h3>{e.role}</h3>
+            <p class="org">{e.org}</p>
+            <p>{e.text}</p>
+          </li>
+        ))}
+      </ol>
+      <h2 class="sub">Awards</h2>
+      <ul class="awards">{awards.map((a) => <li>{a}</li>)}</ul>
+    </div>
+  </section>
+
   <section class="band">
     <div class="wrap">
       <h2>Tools I reach for</h2>
@@ -78,5 +113,8 @@ const skills = ['TypeScript', 'React', 'ReactFlow', 'Zustand', 'Vue / Nuxt', 'No
   .timeline li::before { content: ''; position: absolute; left: -8px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); }
   .period { font-size: .85rem; color: var(--accent); margin-bottom: .2em; }
   .org { color: var(--muted); margin-bottom: .4em; }
+  .sub { margin-top: 48px; }
+  .awards { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  .awards li { padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--text); }
   .tag { font-size: .9rem; padding: 7px 15px; background: var(--surface); color: var(--text); border: 1px solid var(--line); }
 </style>
