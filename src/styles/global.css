@@ -1,0 +1,105 @@
+/* =========================================================
+   Two themes, one site.
+   - [data-side="tech"]: dark, crisp, product-page feel
+   - [data-side="life"]: light, natural, sage and clay
+   Every component uses the tokens below, never raw colours.
+   ========================================================= */
+:root {
+  --max: 1080px;
+  --radius: 20px;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --body-font: 'DM Sans', system-ui, sans-serif;
+
+  /* Life palette (shared names so both themes can reference them) */
+  --cream: #f8f4ec; --sand: #ece3d2; --stone: #d9cdb6;
+  --sage: #8a9a78; --sage-soft: #dfe5d6; --moss: #4f6142; --forest: #2c3a2a;
+  --clay: #c47f5a; --clay-soft: #f3e1d5;
+}
+
+[data-side="tech"] {
+  --bg: #000000;
+  --bg-alt: #0d0d0f;
+  --surface: #161618;
+  --surface-hover: #1d1d20;
+  --line: #2a2a2e;
+  --text: #f5f5f7;
+  --muted: #a1a1a6;
+  --accent: #6cb4ff;
+  --accent-soft: rgba(108, 180, 255, .12);
+  --heading: #f5f5f7;
+  --heading-font: var(--sans);
+  --heading-weight: 600;
+  --heading-tracking: -0.03em;
+  --text-font: var(--sans);
+  color-scheme: dark;
+}
+
+[data-side="life"], [data-side="home"] {
+  --bg: var(--cream);
+  --bg-alt: var(--sage-soft);
+  --surface: #fffdf8;
+  --surface-hover: #ffffff;
+  --line: var(--sand);
+  --text: #2a2a24;
+  --muted: #6b6a5e;
+  --accent: var(--clay);
+  --accent-soft: var(--clay-soft);
+  --heading: var(--forest);
+  --heading-font: var(--serif);
+  --heading-weight: 500;
+  --heading-tracking: -0.015em;
+  --text-font: var(--body-font);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--text-font);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  animation: arrive .45s ease both;
+}
+@keyframes arrive { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { body { animation: none; } * { transition: none !important; } }
+
+img { max-width: 100%; display: block; }
+a { color: var(--accent); text-underline-offset: 3px; }
+
+h1, h2, h3 {
+  font-family: var(--heading-font); font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking); line-height: 1.1; color: var(--heading); margin: 0 0 .5em;
+}
+h1 { font-size: clamp(2.6rem, 7vw, 4.8rem); }
+h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+h3 { font-size: 1.25rem; letter-spacing: -0.01em; }
+p { margin: 0 0 1em; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+@media (min-width: 700px) { .wrap { padding: 0 32px; } }
+section { padding: 80px 0; }
+
+.eyebrow { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); font-weight: 600; margin-bottom: .8em; font-family: var(--text-font); }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 660px; }
+
+.grid { display: grid; gap: 20px; }
+@media (min-width: 760px) { .grid.two { grid-template-columns: 1fr 1fr; } .grid.three { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.card:hover { transform: translateY(-3px); background: var(--surface-hover); }
+[data-side="life"] .card:hover { box-shadow: 0 12px 30px -18px rgba(44, 58, 42, .35); }
+
+.tag { display: inline-block; font-size: .78rem; padding: 4px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin: 0 6px 6px 0; }
+.band { background: var(--bg-alt); }
+
+.btn { display: inline-block; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 500; background: var(--text); color: var(--bg); }
+.btn:hover { opacity: .85; }
+.btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }

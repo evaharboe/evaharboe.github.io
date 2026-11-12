@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const { title, org, period, summary, tags } = project.data;
+const base = import.meta.env.BASE_URL;
+---
+<a class="card project" href={`${base}tech/${project.id}/`}>
+  <p class="meta">{org} · {period}</p>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  <div>{tags.map((t) => <span class="tag">{t}</span>)}</div>
+</a>
+
+<style>
+  .project { display: block; text-decoration: none; color: var(--ink); }
+  .project:hover { color: var(--ink); }
+  .meta { font-size: .85rem; color: var(--accent); margin-bottom: .4em; }
+  p { color: var(--muted); }
+</style>

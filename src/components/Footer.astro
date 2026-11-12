@@ -1,0 +1,30 @@
+---
+// TODO(Eva): fill in your real links
+const links = [
+  { label: 'Email', href: 'mailto:you@example.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/your-handle' },
+  { label: 'GitHub', href: 'https://github.com/evaharboe' },
+  { label: 'Instagram', href: 'https://instagram.com/your-handle' },
+];
+---
+<footer id="contact">
+  <div class="wrap">
+    <h2>Say hello</h2>
+    <p class="lead">Whether it's a role, a project, or a run and a coffee, I'd love to hear from you.</p>
+    <ul>{links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    <p class="small">© {new Date().getFullYear()} Eva Harboe</p>
+  </div>
+</footer>
+
+<style>
+  footer { padding: 80px 0 40px; border-top: 1px solid var(--line); }
+  :global([data-side="life"]) footer { background: var(--forest); border: 0; }
+  :global([data-side="life"]) footer h2 { color: var(--cream); }
+  :global([data-side="life"]) footer .lead, :global([data-side="life"]) footer .small { color: var(--stone); }
+  ul { list-style: none; padding: 0; margin: 24px 0 48px; display: flex; flex-wrap: wrap; gap: 12px; }
+  a { text-decoration: none; padding: 9px 20px; border-radius: 999px; display: inline-block; border: 1px solid var(--line); color: var(--text); }
+  a:hover { background: var(--text); color: var(--bg); }
+  :global([data-side="life"]) footer a { color: var(--cream); border-color: rgba(248,244,236,.35); }
+  :global([data-side="life"]) footer a:hover { background: var(--cream); color: var(--forest); }
+  .small { font-size: .85rem; color: var(--muted); }
+</style>

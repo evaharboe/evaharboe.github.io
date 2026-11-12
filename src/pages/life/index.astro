@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const races = (await getCollection('races')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const now = new Date();
+const upcoming = races.filter((r) => r.data.date > now).reverse();
+const done = races.filter((r) => r.data.date <= now);
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+
+// Retreat styles Eva wants to build towards. Edit freely.
+const retreatIdeas = [
+  { title: 'Run & yoga', text: 'Morning trail runs, afternoon mobility, evening yin. Built for runners who never stretch.' },
+  { title: 'Hike & yoga', text: 'Long days in the mountains, slow practice at the end of them.' },
+  { title: 'Surf & yoga', text: 'Water in the morning, strength and balance on the mat.' },
+  { title: 'Pure yoga', text: 'Time away to go deeper into practice, with space to rest.' },
+];
+
+// Life side. IMPORTANT (visa): until the Graduate visa, keep this page about practice and community.
+// No prices, booking links or "hire me". An "Offerings" / "For workplaces" section can go in from July 2027.
+---
+<Base side="life" title="Life · Eva Harboe" description="Eva Harboe on yoga, running and retreats: teaching, races, and building communities around moving well.">
+  <section class="intro">
+    <div class="wrap">
+      <p class="eyebrow">Yoga · Running · Retreats</p>
+      <h1>Move well, together.</h1>
+      <p class="lead">
+        I teach yoga, I'm learning to run long, and I love bringing people somewhere beautiful to do both.
+        Everything here is about the same thing: making movement feel welcoming, and building community around it.
+      </p>
+    </div>
+  </section>
+
+  <section class="band clay-band">
+    <div class="wrap grid two yoga">
+      <div>
+        <p class="eyebrow">Yoga</p>
+        <h2>Teaching</h2>
+        <p>
+          I'm a certified yoga teacher. I teach weekly classes and lead retreats for the Surrey Yoga Society, where I was president for two terms.
+          When I started teaching, I focused on making classes feel like a community rather than just a class, and attendance
+          doubled to around 40 people a week.
+        </p>
+        <p>
+          Next I'm planning my 300-hour training, with a focus on yoga for runners: mobility, strength and recovery for people who
+          spend a lot of time on their feet.
+        </p>
+        <!-- TODO(Eva): your 200hr school/style, and a photo of you teaching -->
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="num">~40</span><span>people a week in my classes</span></div>
+        <div class="stat"><span class="num">3</span><span>retreats led, in the UK and Cyprus</span></div>
+        <div class="stat"><span class="num">300hr</span><span>teacher training, coming next</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Running</p>
+      <h2>From 500 metres to a marathon</h2>
+      <p class="lead">I was a sprinter and handball player. Distance running was the punishment for turning up late. In 2026 I decided to change that.</p>
+
+      {upcoming.length > 0 && (
+        <div class="grid two races">
+          {upcoming.map((r) => (
+            <div class="card race next">
+              <span class="tag">Coming up · {fmt(r.data.date)}</span>
+              <h3>{r.data.name}</h3>
+              <p class="dist">{r.data.distance}</p>
+              {r.data.note && <p>{r.data.note}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="grid three races">
+        {done.map((r) => (
+          <div class="card race">
+            <p class="dist">{r.data.distance} · {fmt(r.data.date)}</p>
+            <h3>{r.data.name}</h3>
+            <p class="time">{r.data.time}</p>
+            {r.data.note && <p class="note">{r.data.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <p class="eyebrow">Retreats</p>
+      <h2>Where this is heading</h2>
+      <p class="lead">
+        I've planned and led three retreats for the yoga society, in England and abroad. One day I'd like to build
+        retreats that mix movement with places worth travelling to.
+      </p>
+      <div class="grid two ideas">
+        {retreatIdeas.map((i) => (
+          <div class="card">
+            <h3>{i.title}</h3>
+            <p>{i.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap grid two">
+      <div>
+        <p class="eyebrow">Snow</p>
+        <h2>Raised on skis</h2>
+        <p>
+          I grew up skiing every weekend at our family cabin in Norway, and now go ski touring with my dad, most recently in Japan.
+          Norwegian even has a word, <em>føre</em>, for the conditions snow creates. I could talk about it for hours.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow">Elsewhere</p>
+        <h2>35 countries and counting</h2>
+        <p>Many of them solo. Travelling alone taught me to walk into somewhere new and get to know people quickly, which is most of what a good retreat needs.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 88px 0 56px; }
+  .intro .eyebrow, .clay-band .eyebrow { color: var(--moss); }
+  .clay-band { background: var(--sage-soft); }
+  .band:not(.clay-band) { background: var(--sand); }
+  .yoga { align-items: center; }
+  .stats { display: grid; gap: 14px; }
+  .stat { background: #fffdf8; border-radius: var(--radius); padding: 20px 24px; display: flex; align-items: baseline; gap: 16px; }
+  .num { font-family: var(--serif); font-size: 2.2rem; color: var(--clay); min-width: 110px; }
+  .races { margin-top: 28px; }
+  .race .dist { font-size: .85rem; color: var(--sage); margin-bottom: .3em; }
+  .race .time { font-family: var(--serif); font-size: 2rem; color: var(--forest); margin: 0; }
+  .race .note { color: var(--muted); font-size: .95rem; margin-top: .6em; }
+  .race.next { background: var(--forest); border-color: var(--forest); color: var(--sand); }
+  .race.next h3 { color: var(--cream); }
+  .race.next .tag { background: var(--clay); color: var(--cream); }
+  .race.next .dist { color: var(--stone); }
+  .ideas { margin-top: 28px; }
+  .ideas p { color: var(--muted); margin: 0; }
+</style>

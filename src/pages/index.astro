@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { SIDES } from '../config';
+const base = import.meta.env.BASE_URL;
+---
+<Base side="home" title="Eva Harboe" description="Software engineer, yoga teacher and runner. Two sides: tech, and life.">
+  <div class="split">
+    <a class="half tech" href={`${base}${SIDES.tech.path}`} data-side="tech">
+      <div class="inner">
+        <p class="eyebrow">{SIDES.tech.label}</p>
+        <h1>I build things<br />from zero.</h1>
+        <p class="lead">Final-year CS at Surrey. A year at Sony building tools, computer vision and Android.</p>
+        <span class="go">Enter →</span>
+      </div>
+    </a>
+    <a class="half life" href={`${base}${SIDES.life.path}`} data-side="life">
+      <div class="inner">
+        <p class="eyebrow">{SIDES.life.label}</p>
+        <h1>I bring people<br />together.</h1>
+        <p class="lead">Yoga teacher, new marathoner, retreat planner, raised on skis.</p>
+        <span class="go">Come along →</span>
+      </div>
+    </a>
+  </div>
+</Base>
+
+<style>
+  .split { display: flex; min-height: 100vh; min-height: 100svh; }
+  .half {
+    flex: 1; display: flex; align-items: center; text-decoration: none;
+    padding: 120px clamp(20px, 5vw, 72px) 64px; transition: flex .6s cubic-bezier(.7,0,.3,1);
+    background: var(--bg); color: var(--text);
+  }
+  .half:hover { flex: 1.35; }
+  .inner { max-width: 460px; font-family: var(--text-font); }
+  .half.tech { justify-content: flex-end; text-align: right; }
+  .half.tech .inner { margin-left: auto; }
+  .half.tech .lead { margin-left: auto; }
+  h1 { font-size: clamp(2.2rem, 4.6vw, 3.8rem); }
+  .lead { font-size: 1.1rem; }
+  .go { display: inline-block; margin-top: 12px; font-weight: 600; color: var(--heading); border-bottom: 1.5px solid currentColor; padding-bottom: 2px; }
+  .life { background: linear-gradient(160deg, var(--cream) 0%, var(--sage-soft) 100%); }
+  @media (max-width: 760px) {
+    .split { flex-direction: column; }
+    .half { padding: 96px 20px 48px; min-height: 50svh; }
+    .half:hover { flex: 1; }
+    .half.tech { text-align: left; justify-content: flex-start; }
+    .half.tech .inner, .half.tech .lead { margin-left: 0; }
+    .half.life { padding-top: 48px; }
+  }
+</style>

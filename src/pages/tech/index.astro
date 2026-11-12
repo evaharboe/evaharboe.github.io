@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+const experience = [
+  { role: 'Engineering Intern (Placement Year)', org: 'Sony Europe, Basingstoke', period: 'Sep 2025 – Aug 2026',
+    text: 'Led the 0-to-1 build of Wrangler Designer, researched real-time video deblurring, and built an Android reference app with the BBC.' },
+  { role: 'Web Developer & UX Designer (Product Lead)', org: 'Surrey Students’ Union', period: 'Dec 2023 – Jun 2025',
+    text: 'Built the vehicle booking and society management pages for a portal serving 17,000+ students, plus reusable templates so staff could publish safely.' },
+  { role: 'BSc (Hons) Computer Science', org: 'University of Surrey', period: '2023 – 2027',
+    text: 'On track for a First. Dean’s List 2023/24 and 2024/25. Final year project with CVSSP.' },
+];
+
+const skills = ['TypeScript', 'React', 'ReactFlow', 'Zustand', 'Vue / Nuxt', 'Node.js', 'Django', 'Python', 'PyTorch', 'ONNX Runtime', 'TensorRT', 'Java', 'Kotlin', 'Jetpack Compose', 'SQL', 'AWS', 'Git'];
+---
+<Base side="tech" title="Tech · Eva Harboe" description="Eva Harboe's software engineering work: Sony Wrangler Designer, computer vision research, Android, and BSL fingerspelling.">
+  <section class="intro">
+    <div class="wrap">
+      <p class="eyebrow">Tech</p>
+      <h1>From a blank page<br />to a working product.</h1>
+      <p class="lead">
+        I like the start of a problem: working out what people actually need, building something that solves it,
+        and seeing it make a difference. Trilingual in English, Norwegian and French.
+      </p>
+      <p class="actions">
+        <a class="btn" href="#work">See my work</a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band" id="work">
+    <div class="wrap">
+      <h2>Selected work</h2>
+      <div class="grid two">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Experience</h2>
+      <ol class="timeline">
+        {experience.map((e) => (
+          <li>
+            <p class="period">{e.period}</p>
+            <h3>{e.role}</h3>
+            <p class="org">{e.org}</p>
+            <p>{e.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>Tools I reach for</h2>
+      <div>{skills.map((s) => <span class="tag">{s}</span>)}</div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 120px 0 96px; text-align: center; }
+  .intro h1 { font-size: clamp(2.8rem, 8vw, 5.6rem); background: linear-gradient(180deg, #fff 30%, #8a8a90); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .intro .lead { margin: 0 auto; }
+  .actions { justify-content: center; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .timeline { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--line); }
+  .timeline li { padding: 0 0 36px 28px; position: relative; }
+  .timeline li::before { content: ''; position: absolute; left: -8px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); }
+  .period { font-size: .85rem; color: var(--accent); margin-bottom: .2em; }
+  .org { color: var(--muted); margin-bottom: .4em; }
+  .tag { font-size: .9rem; padding: 7px 15px; background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+</style>

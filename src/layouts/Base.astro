@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import type { Side } from '../config';
+
+interface Props { title: string; description: string; side: Side | 'home' }
+const { title, description, side } = Astro.props;
+const themeColor = side === 'tech' ? '#000000' : '#f8f4ec';
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={themeColor} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body data-side={side}>
+    <Nav side={side} />
+    <main><slot /></main>
+    {side !== 'home' && <Footer />}
+    <div class="wipe" aria-hidden="true"></div>
+  </body>
+</html>
+
+<style is:global>
+  /* Full-screen colour wipe played when the switch is flipped */
+  .wipe { position: fixed; inset: 0; z-index: 100; pointer-events: none; transform: scaleX(0); }
+  .wipe.to-tech { background: #000; transform-origin: left; animation: wipe .42s cubic-bezier(.7,0,.3,1) forwards; }
+  .wipe.to-life { background: #f8f4ec; transform-origin: right; animation: wipe .42s cubic-bezier(.7,0,.3,1) forwards; }
+  @keyframes wipe { to { transform: scaleX(1); } }
+</style>
