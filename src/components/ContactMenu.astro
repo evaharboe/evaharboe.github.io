@@ -1,0 +1,55 @@
+---
+import { CONTACT } from '../config';
+---
+<div class="contact-menu">
+  <button type="button" class="trigger" aria-expanded="false" aria-controls="contact-panel">Contact</button>
+  <div class="panel" id="contact-panel" hidden>
+    <p class="title">Say hello</p>
+    <ul>
+      {CONTACT.map((c) => (
+        <li>
+          <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+            <span class="label">{c.label}</span>
+            <span class="detail">{c.detail}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.contact-menu').forEach((menu) => {
+    const btn = menu.querySelector<HTMLButtonElement>('.trigger')!;
+    const panel = menu.querySelector<HTMLElement>('.panel')!;
+    const set = (open: boolean) => { panel.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); set(panel.hidden); });
+    document.addEventListener('click', (e) => { if (!menu.contains(e.target as Node)) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); btn.focus(); } });
+  });
+</script>
+
+<style>
+  .contact-menu { position: relative; justify-self: end; }
+  .trigger {
+    font: inherit; font-size: .92rem; cursor: pointer; padding: 7px 16px; border-radius: 999px;
+    background: transparent; color: var(--text); border: 1px solid var(--line); transition: background .2s, color .2s;
+  }
+  .trigger:hover, .trigger[aria-expanded="true"] { background: var(--text); color: var(--bg); }
+  .panel {
+    position: absolute; right: 0; top: calc(100% + 10px); width: 260px; padding: 18px 8px 8px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 18px 40px -20px rgba(0,0,0,.35); animation: pop .18s ease-out;
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(-4px); } }
+  .title { margin: 0 12px 8px; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  a { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--text); }
+  a:hover { background: var(--bg-alt); }
+  .label { font-weight: 500; }
+  @media (max-width: 560px) {
+    .trigger { padding: 6px 12px; font-size: .85rem; }
+    .panel { width: min(280px, calc(100vw - 32px)); }
+  }
+  .detail { color: var(--muted); font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
