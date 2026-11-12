@@ -23,8 +23,9 @@ const pastRetreats = [
     text: "The one I'm proudest of, and where I worked out what I want a retreat to be. Fully catered with family-style meals, wild swimming, a little library, film nights and s'mores, so people could properly switch off." },
   { place: 'Cyprus', when: 'April 2026', kind: 'Yoga & island',
     photos: [
-      { src: 'cyprus-boat.webp', alt: 'On the boat tour, looking out over turquoise water' },
+      { src: 'cyprus-sea-yoga.webp', alt: 'Beach yoga in Cyprus with the turquoise sea behind' },
       { src: 'cyprus-beach-yoga.webp', alt: 'Yoga on the beach in Cyprus' },
+      { src: 'cyprus-boat.webp', alt: 'On the boat tour, looking out over turquoise water' },
       { src: 'cyprus-breakfast.webp', alt: 'Breakfast together in Cyprus' },
     ],
     text: 'A younger, more social one that I oversaw: boat tours, yoga on the beach and a karaoke night.' },
@@ -253,7 +254,7 @@ const others = pastRetreats.filter((r) => !r.upcoming && !r.photos);
   .featured-body p, .rcard p { color: var(--muted); font-size: .95rem; margin: 0; }
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 16px 24px 24px; }
   .gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; }
-  @media (max-width: 560px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .gallery:not(.n3) { grid-template-columns: repeat(2, 1fr); } }
   .featured img, .gallery img { filter: saturate(.92) sepia(.06); }
 
   .cards { display: grid; gap: 16px; }
@@ -262,6 +263,7 @@ const others = pastRetreats.filter((r) => !r.upcoming && !r.photos);
   .rcard.upcoming { border-style: dashed; border-color: var(--clay); margin-top: 32px; }
   .gallery.n2 { grid-template-columns: repeat(2, 1fr); }
   .gallery.n2 img { aspect-ratio: 4 / 3; }
+  .gallery.n3 { grid-template-columns: repeat(3, 1fr); }
   .rcard.upcoming .when { color: var(--clay); }
   .when { display: block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sage); }
 
